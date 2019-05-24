@@ -18,33 +18,39 @@ int main(void)
 	//printf("%ld\n", write(socket, buffer, TAM));
 	//fflush(socket);
 	char c;
-	mensagem_t mensagem;
-	mensagem.sequencia 	= 0;
-	mensagem.tipo		= 0;
-	mensagem.tamanho	= 40;
-	strcpy(mensagem.data, "opora essa merda n funciona nunca vsf men");
-	mensagem.crc 		= '0';
-	mensagem.marcador	= '2';
-	//for(i )
-			printf("%c %c %s\n", mensagem.marcador, mensagem.crc, mensagem.data);
-	printf("%d %d %d %s %c %c\n", mensagem.sequencia, mensagem.tipo, mensagem.tamanho, mensagem.data, mensagem.crc, mensagem.marcador);
+	mensagem_t msg_envio;
+	msg_envio.sequencia 	= 2;
+	msg_envio.tipo		= 2;
+	msg_envio.tamanho	= 40;
+	strcpy(msg_envio.data, "E");
+	msg_envio.crc 		= '0';
+	msg_envio.marcador	= '2';
 
+	msg_envio.crc 		= crc_8(msg_envio);
+
+	//printf("%c %c %s\n", msg_envio.marcador, msg_envio.crc, msg_envio.data);
+	printf("%d %d %d %s %d %c\n", msg_envio.sequencia, msg_envio.tipo, msg_envio.tamanho, msg_envio.data, msg_envio.crc, msg_envio.marcador);
+	/*
+	msg_t msg_recebe;
 
 	while(1)
 	{
-		write(socket, &mensagem, sizeof(mensagem_t));
-		//read(socket, &mensagem, 1);
-		//if(mensagem.marcador == '2')
-		//	break;
-		printf("%d %d %d %s %c %c\n", mensagem.sequencia, mensagem.tipo, mensagem.tamanho, mensagem.data, mensagem.crc, mensagem.marcador);
-
+		write(socket, &msg_envio, sizeof(msg_t));
+		sleep(2);
+		read(socket, &msg_recebe, sizeof(msg_t));
+		if(msg_recebe.marcador == '2')
+			break;
+		//printf("%d %d %d %s %c %c\n", msg.sequencia, msg.tipo, msg.tamanho, msg.data, msg.crc, msg.marcador);
 	}
+
+	if(!crc_8(msg_recebe))
+	*/
 	/*
-	write(socket, mensagem.sequencia, TAM);
-	write(socket, mensagem.tipo, TAM);
-	write(socket, mensagem.tamanho, TAM);
-	write(socket, &mensagem.data, TAM);
-	write(socket, &mensagem.crc, TAM);
+	write(socket, msg.sequencia, TAM);
+	write(socket, msg.tipo, TAM);
+	write(socket, msg.tamanho, TAM);
+	write(socket, &msg.data, TAM);
+	write(socket, &msg.crc, TAM);
 	*/
 	/*char c;
 	do{

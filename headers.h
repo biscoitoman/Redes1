@@ -27,7 +27,7 @@ typedef struct mensagem
 	 char 			data[63];
 }mensagem_t;
 
-
+unsigned char crc_8(mensagem_t msg);
 int ConexaoRawSocket(char *device);
 int main(void);
 
