@@ -4,7 +4,7 @@ int main(void)
 {
 	int i;
 
-	int socket = ConexaoRawSocket("enp0s31f6");
+	//int socket = ConexaoRawSocket("enp0s31f6");
 	char buffer[TAM];
 	//for(i = 0; i < TAM; i++)
 	//	buffer[i]='b';
@@ -28,8 +28,10 @@ int main(void)
 
 	msg_envio.crc 		= crc_8(msg_envio);
 
+	i = crc_check(msg_envio);
+
 	//printf("%c %c %s\n", msg_envio.marcador, msg_envio.crc, msg_envio.data);
-	printf("%d %d %d %s %d %c\n", msg_envio.sequencia, msg_envio.tipo, msg_envio.tamanho, msg_envio.data, msg_envio.crc, msg_envio.marcador);
+	printf("%d %d %d %s %d %c |%d|\n", msg_envio.sequencia, msg_envio.tipo, msg_envio.tamanho, msg_envio.data, msg_envio.crc, msg_envio.marcador, i);
 	/*
 	msg_t msg_recebe;
 
