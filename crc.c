@@ -1,19 +1,9 @@
-#include <stdint.h>
-#include <sys/types.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "headers.h"
 
 
-typedef uint8_t crc;
-
-#define WIDTH  (8 * sizeof(crc))
-#define TOPBIT (1 << (WIDTH - 1))
-#define POLYNOMIAL 0x07
-
-crc crcSlow(uint8_t const message[], int nBytes)
+uint8_t crc_calc(uint8_t const message[], int nBytes)
 {
-    crc  remainder = 0;	
+    uint8_t  remainder = 0;	
 
 
     /*
@@ -50,19 +40,28 @@ crc crcSlow(uint8_t const message[], int nBytes)
      */
     return (remainder);
 
-}   /* crcSlow() */
+}   /* crc_calc() */
 
-int main (int argc, char *argv[]){
-	unsigned char a[5] = "fodas";
-	unsigned char c[6];
-	memset(c,0,sizeof(c)); 
-	unsigned char b = (unsigned char)crcSlow((const uint8_t *)a, sizeof(a));
-	for (int i =0 ; i<5;i++)
-		c[i] = a[i];
-	c[5] = b ;
-	printf("%d\n",b);
-	printf("%s\n",c);
-	b = (unsigned char)crcSlow((const uint8_t *)c, sizeof(c));
-	printf("%d\n",b);	
-	
+unsigned char crc (mensagem_t msg, char opt)
+{
+	if(opt == 'w')
+	{
+		unsigned char dividendo[65];
+		memset(dividendo, 0, sizeof(dividendo)); 
+		strcpy((char*)dividendo, msg.data);
+		dividendo[63] = msg.tipo;
+		dividendo[64] = msg.tamanho;
+		return (unsigned char)crc_calc((const uint8_t *)dividendo, sizeof(dividendo));
+	}
+	else if(opt == 'r')
+	{
+		unsigned char dividendo[66];
+		memset(dividendo, 0, sizeof(dividendo)); 
+		strcpy((char*)dividendo, msg.data);
+		dividendo[63] = msg.tipo;
+		dividendo[64] = msg.tamanho;
+		dividendo[65] = msg.crc;
+		return (unsigned char)crc_calc((const uint8_t *)dividendo, sizeof(dividendo));
+	}
+	return '?';
 }

@@ -14,7 +14,12 @@
 #include <unistd.h>
 #include <arpa/inet.h>
 #include <ctype.h>
+#include <stdint.h>
 
+
+#define WIDTH  (8 * sizeof(crc))
+#define TOPBIT (1 << (WIDTH - 1))
+#define POLYNOMIAL 0x07
 #define TAM 256
 
 typedef struct mensagem
@@ -27,12 +32,8 @@ typedef struct mensagem
 	 char 			data[63];
 }mensagem_t;
 
-//unsigned char calc_crc(mensagem_t msg);
-uint8_t gencrc(uint8_t *data, size_t len);
-unsigned char crc_8(mensagem_t msg);
-int crc_check(mensagem_t msg);
-
-
+unsigned char crc (mensagem_t msg, char opt);
+uint8_t crc_calc(uint8_t const message[], int nBytes);
 int ConexaoRawSocket(char *device);
 int main(void);
 
