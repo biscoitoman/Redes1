@@ -10,8 +10,6 @@
 #define TAM 63
 
 int main(/*int argc, char* argv[]*/void){
-	char funcao[4]; 
-	char diretorio [TAM];
 	DIR *mydir;
 	struct dirent *myfile;
 	struct stat mystat;
@@ -20,20 +18,15 @@ int main(/*int argc, char* argv[]*/void){
 	while(1){
 		
 		int i;
-		for(i = 0; i < 4; i++)
-			funcao[i] = '\0';
-		scanf("%s", funcao);
 		
 		getchar();	// para não pegar o espaço
 
-		for(i = 0; i < TAM; i++)
-			diretorio[i] = '\0';
-		i = -1;
-		do{
-			i++;
-			diretorio[i] = getchar();
-		}while(diretorio[i] != '\n');
-		diretorio[i] = '\0';
+		// i = -1;
+		// do{
+		// 	i++;
+		// 	diretorio[i] = getchar();
+		// }while(diretorio[i] != '\n');
+		// diretorio[i] = '\0';
 		//coloca opção aqui
 		
 		//ls

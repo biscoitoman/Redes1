@@ -1,7 +1,113 @@
 #include "headers.h"
 
+void ls(char *buffer, int pos)
+{
+
+}
+
+void cd(char *buffer, DIR *mydir)
+{
+	int pos = 4;
+	char diretorio[TAM_FILE];
+	memset(diretorio, 0, sizeof(diretorio));
+	int i = 0;
+	char c;
+	do
+	{
+		c = buffer[pos+i];
+		diretorio[i] = c;
+		i++;
+	}while(c != '\0' || c != EOF || c != NULL || i < TAM_FILE);
+	chdir(diretorio);
+	mydir = opendir(".");
+}
+
+void envia_msg(char *buffer)
+{
+	mensagem_t msg;
+	memset(msg, 0, sizeof(msg));
+	msg.sequencia 	= 0;
+	msg.tipo 		= 4;
+	msg.tamanho 	= 63;
+	msg.crc 		= crc(msg, 'w');
+	msg.marcador	= 204;
+	char c;
+	int i = 0;
+	int pos = 4;
+	do
+	{
+		c = buffer[pos+i];
+		msg.data[i] = c;
+		i++;
+	}while(c != '\0' || c != EOF || c != NULL || i < TAM_FILE);
+
+	envio(msg);
+}
+
+void menu(void)
+{
+	int i;
+	char buffer[TAM];
+	char comando[4];
+	char c;
+
+	DIR *mydir;
+	struct dirent *myfile;
+	struct stat mystat;
+	mydir = opendir(".");
+
+	while(1)
+	{
+		memset(buffer, 0, sizeof(buffer));
+		printf("\n$ ");
+		fgets(buffer, TAM, stdin);
+		i = 0;
+		do
+		{
+			c = buffer[i];
+			comando[i] = c;
+			i++;
+		}while(c != ' ' || c != EOF || c != NULL || i < 4);
+		if(!strcmp(comando, "lsl"))
+		{
+			ls(buffer, i);
+		}
+		else if(!strcmp(comando, "lsr"))
+		{
+
+		}
+		else if(!strcmp(comando, "cdl"))
+			cd(buffer, mydir);
+		else if(!strcmp(comando, "cdr"))
+		{
+			envia_msg(buffer);
+		}
+		else if(!strcmp(comando, "put"))
+		{
+
+		}
+		else if(!strcmp(comando, "get"))
+		{
+
+		}
+		else if(!strcmp(comando, "chat"))
+		{
+
+		}
+		else if(!strcmp(comando, "quit"))
+		{
+			break;
+		}
+		else
+		{
+			puts("\ncomando invalido");
+		}
+	}
+}
+
 int main(void)
 {
+	menu();
 	int i;
 
 	//int socket = ConexaoRawSocket("enp0s31f6");
@@ -24,7 +130,7 @@ int main(void)
 	msg_envio.tamanho	= 40;
 	strcpy(msg_envio.data, "funcionaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 	msg_envio.crc 		= '0';
-	msg_envio.marcador	= '2';
+	msg_envio.marcador	= ;
 
 	msg_envio.crc 		= crc(msg_envio, 'w');
 	printf("%d\n", msg_envio.crc);

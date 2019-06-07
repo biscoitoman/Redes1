@@ -14,6 +14,7 @@
 #include <unistd.h>
 #include <arpa/inet.h>
 #include <ctype.h>
+#include <dirent.h>
 #include <stdint.h>
 
 
@@ -21,6 +22,7 @@
 #define TOPBIT (1 << (WIDTH - 1))
 #define POLYNOMIAL 0x07
 #define TAM 256
+#define TAM_FILE 63
 
 typedef struct mensagem
 {
@@ -29,7 +31,7 @@ typedef struct mensagem
 					tamanho: 6,
 	 				crc,
 	 				marcador;
-	 char 			data[63];
+	 char 			data[TAM_FILE];
 }mensagem_t;
 
 unsigned char crc (mensagem_t msg, char opt);
